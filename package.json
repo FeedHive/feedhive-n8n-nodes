@@ -1,0 +1,53 @@
+{
+  "name": "n8n-nodes-feedhive",
+  "version": "0.1.0",
+  "description": "FeedHive Public REST API community node for n8n",
+  "license": "MIT",
+  "homepage": "https://github.com/FeedHive/feedhive-n8n-nodes#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FeedHive/feedhive-n8n-nodes.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FeedHive/feedhive-n8n-nodes/issues"
+  },
+  "keywords": [
+    "n8n-community-node-package"
+  ],
+  "author": {
+    "name": "Simon Høiberg",
+    "email": "simonlhoiberg@gmail.com"
+  },
+  "scripts": {
+    "build": "n8n-node build",
+    "build:watch": "tsc --watch",
+    "dev": "n8n-node dev",
+    "lint": "n8n-node lint",
+    "lint:fix": "n8n-node lint --fix",
+    "test": "npm run build && node --test test/*.test.cjs"
+  },
+  "files": [
+    "dist",
+    "docs/images"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "strict": true,
+    "credentials": [
+      "dist/credentials/FeedhiveApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/Feedhive/Feedhive.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@n8n/node-cli": "*",
+    "eslint": "9.32.0",
+    "prettier": "3.6.2",
+    "typescript": "5.9.2"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  },
+  "private": false
+}

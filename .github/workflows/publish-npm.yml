@@ -1,0 +1,63 @@
+name: Publish to npm
+
+# Release by dispatching this workflow for a reviewed version tag. A push never publishes.
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Package version to publish (without v prefix)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write # npm provenance attestation for n8n Creator Portal verification
+
+concurrency:
+  group: npm-release
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: npm-release
+    steps:
+      - name: Check out the requested release tag
+        uses: actions/checkout@v4
+        with:
+          ref: v${{ inputs.version }}
+          persist-credentials: false
+
+      - name: Set up Node.js and npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          registry-url: https://registry.npmjs.org
+
+      - name: Verify version, tag, and publication guard
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          node -e '
+            const fs = require("node:fs");
+            const { execFileSync } = require("node:child_process");
+            const v = process.env.RELEASE_VERSION;
+            const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+            if (!/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(v)) throw Error("Invalid release version");
+            if (pkg.version !== v) throw Error("Package version does not match requested tag");
+            if (pkg.private !== false) throw Error("Package is private; review and remove the publication guard first");
+            if (execFileSync("git", ["describe", "--tags", "--exact-match"], { encoding: "utf8" }).trim() !== `v${v}`) throw Error("Checkout is not the requested release tag");
+          '
+
+      - name: Install and verify package
+        run: |
+          npm ci
+          npm run lint
+          npm test
+          npm pack --dry-run
+
+      - name: Publish reviewed version
+        run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

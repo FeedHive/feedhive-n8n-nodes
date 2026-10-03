@@ -1,0 +1,1174 @@
+[
+  {
+    "name": "FeedHive Account \u2014 Check Credentials (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Account Check Credentials",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "account",
+          "operation": "status"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Account Check Credentials",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Post \u2014 Get Many (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Post Get Many",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "post",
+          "operation": "getMany",
+          "limit": 2
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Post Get Many",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Post \u2014 Get (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Post Get",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "post",
+          "operation": "get",
+          "id": "REPLACE_WITH_DISPOSABLE_ID"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Post Get",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Post \u2014 Create (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Post Create",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "post",
+          "operation": "create",
+          "requestBody": "{\"text\": \"Fixture draft only\", \"status\": \"draft\"}"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Post Create",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Post \u2014 Update (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Post Update",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "post",
+          "operation": "update",
+          "id": "REPLACE_WITH_DISPOSABLE_ID",
+          "requestBody": "{\"text\": \"Fixture draft only\", \"status\": \"draft\"}"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Post Update",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Post \u2014 Delete (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Post Delete",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "post",
+          "operation": "delete",
+          "id": "REPLACE_WITH_DISPOSABLE_ID"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Post Delete",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Label \u2014 Get Many (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Label Get Many",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "label",
+          "operation": "getMany",
+          "limit": 2
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Label Get Many",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Label \u2014 Get (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Label Get",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "label",
+          "operation": "get",
+          "id": "REPLACE_WITH_DISPOSABLE_ID"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Label Get",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Label \u2014 Create (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Label Create",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "label",
+          "operation": "create",
+          "requestBody": "{\"title\": \"Fixture label\"}"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Label Create",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Label \u2014 Update (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Label Update",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "label",
+          "operation": "update",
+          "id": "REPLACE_WITH_DISPOSABLE_ID",
+          "requestBody": "{\"title\": \"Fixture label\"}"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Label Update",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Label \u2014 Delete (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Label Delete",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "label",
+          "operation": "delete",
+          "id": "REPLACE_WITH_DISPOSABLE_ID"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Label Delete",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Media \u2014 Get Many (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Media Get Many",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "media",
+          "operation": "getMany",
+          "limit": 2
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Media Get Many",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Media \u2014 Get (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Media Get",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "media",
+          "operation": "get",
+          "id": "REPLACE_WITH_DISPOSABLE_ID"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Media Get",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Media \u2014 Start Upload (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Media Start Upload",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "media",
+          "operation": "startUpload",
+          "requestBody": "{\"filename\": \"fixture.png\", \"content_type\": \"image/png\"}"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Media Start Upload",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Media \u2014 Complete Upload (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Media Complete Upload",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "media",
+          "operation": "completeUpload",
+          "id": "REPLACE_WITH_DISPOSABLE_ID"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Media Complete Upload",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Media \u2014 Delete (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Media Delete",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "media",
+          "operation": "delete",
+          "id": "REPLACE_WITH_DISPOSABLE_ID"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Media Delete",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Plan Slot \u2014 Get Many (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Plan Slot Get Many",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "planSlot",
+          "operation": "getMany",
+          "limit": 2
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Plan Slot Get Many",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Plan Slot \u2014 Get (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Plan Slot Get",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "planSlot",
+          "operation": "get",
+          "id": "REPLACE_WITH_DISPOSABLE_ID"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Plan Slot Get",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Plan Slot \u2014 Create (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Plan Slot Create",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "planSlot",
+          "operation": "create",
+          "requestBody": "{\"week_day\": 1, \"start_time\": \"13:30\", \"end_time\": \"14:30\", \"recurrence\": {\"interval\": \"weekly\", \"repeat_every\": 1}}"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Plan Slot Create",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Plan Slot \u2014 Update (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Plan Slot Update",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "planSlot",
+          "operation": "update",
+          "id": "REPLACE_WITH_DISPOSABLE_ID",
+          "requestBody": "{\"week_day\": 1, \"start_time\": \"13:30\", \"end_time\": \"14:30\", \"recurrence\": {\"interval\": \"weekly\", \"repeat_every\": 1}}"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Plan Slot Update",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Plan Slot \u2014 Delete (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Plan Slot Delete",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "planSlot",
+          "operation": "delete",
+          "id": "REPLACE_WITH_DISPOSABLE_ID"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Plan Slot Delete",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Plan Assignment \u2014 Assign Next (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Plan Assignment Assign Next",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "planAssignment",
+          "operation": "assignNext",
+          "requestBody": "{\"post_ids\": [\"REPLACE_WITH_DISPOSABLE_DRAFT_ID\"]}"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Plan Assignment Assign Next",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Social Account \u2014 Get Many (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Social Account Get Many",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "social",
+          "operation": "getMany",
+          "limit": 2
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Social Account Get Many",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Social Account \u2014 Get (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Social Account Get",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "social",
+          "operation": "get",
+          "id": "REPLACE_WITH_DISPOSABLE_ID"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Social Account Get",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Analytics \u2014 Get Post Analytics (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Analytics Get Post Analytics",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "analytics",
+          "operation": "getPost",
+          "id": "REPLACE_WITH_DISPOSABLE_ID"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Analytics Get Post Analytics",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  },
+  {
+    "name": "FeedHive Analytics \u2014 Get Social Analytics (template; disabled)",
+    "active": false,
+    "nodes": [
+      {
+        "name": "Manual Trigger",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "name": "FeedHive Analytics Get Social Analytics",
+        "type": "n8n-nodes-feedhive.feedhive",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {
+          "resource": "analytics",
+          "operation": "getSocial",
+          "id": "REPLACE_WITH_DISPOSABLE_ID"
+        },
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Manual Trigger": {
+        "main": [
+          [
+            {
+              "node": "FeedHive Analytics Get Social Analytics",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {}
+  }
+]

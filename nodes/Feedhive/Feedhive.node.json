@@ -1,0 +1,20 @@
+{
+  "node": "n8n-nodes-feedhive",
+  "nodeVersion": "1.0",
+  "codexVersion": "1.0",
+  "categories": [
+    "Marketing & Content"
+  ],
+  "resources": {
+    "credentialDocumentation": [
+      {
+        "url": "https://docs.feedhive.com/rest-api/get-started"
+      }
+    ],
+    "primaryDocumentation": [
+      {
+        "url": "https://docs.feedhive.com/rest-api/introduction"
+      }
+    ]
+  }
+}
