@@ -38,6 +38,7 @@ test('n8n package and picker metadata use supported community-node conventions',
   assert.equal(pkg.dependencies, undefined);
   assert.equal(pkg.optionalDependencies, undefined);
   assert.equal(pkg.private, false);
+  assert.equal(codex.node, `${pkg.name}.${new Feedhive().description.name}`);
   assert.deepEqual(codex.categories, ['Marketing & Content']);
 });
 

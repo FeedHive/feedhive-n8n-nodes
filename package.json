@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-feedhive",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "FeedHive Public REST API community node for n8n",
   "license": "MIT",
   "homepage": "https://github.com/FeedHive/feedhive-n8n-nodes#readme",
