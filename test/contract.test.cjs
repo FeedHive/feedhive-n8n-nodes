@@ -89,19 +89,59 @@ test('nested post and plan bodies are JSON objects, not a string or an empty-nam
   await assert.rejects(transform.call({ getNodeParameter: () => '[]' }, {}), /JSON object/);
 });
 
-test('cursor controls and status/label/social filters preserve public API query names', () => {
+test('list operations use Return All / Limit and follow next_cursor internally', () => {
   const node = new Feedhive().description;
-  const cursor = node.properties.find(p => p.name === 'cursor' && p.displayOptions.show.resource[0] === 'post');
-  assert.equal(cursor.routing.send.property, 'cursor');
-  for (const name of ['status', 'labels', 'socials']) {
-    assert.equal(node.properties.find(p => p.name === name).routing.send.property, name);
-  }
-  assert.equal(node.properties.find(p => p.name === 'limit').typeOptions.maxValue, 100);
   for (const resource of ['post', 'label', 'media', 'planSlot', 'social']) {
-    for (const name of ['limit', 'cursor']) {
-      assert.ok(node.properties.some(p => p.name === name && p.displayOptions.show.resource[0] === resource));
-    }
+    const of = name => node.properties.find(p => p.name === name && p.displayOptions.show.resource[0] === resource);
+    assert.equal(of('cursor'), undefined);
+    const returnAll = of('returnAll');
+    assert.equal(returnAll.default, false);
+    assert.equal(returnAll.routing.send.paginate, '={{$value}}');
+    assert.equal(typeof returnAll.routing.operations.pagination, 'function');
+    const limit = of('limit');
+    assert.deepEqual(limit.displayOptions.show.returnAll, [false]);
+    assert.equal(limit.routing.send.property, 'limit');
+    assert.equal(limit.typeOptions.maxValue, 100);
+    assert.deepEqual(limit.routing.output.postReceive.map(a => a.type), ['rootProperty', 'limit']);
   }
+});
+
+const listContext = (pages, calls) => ({
+  makeRoutingRequest: async (request) => {
+    calls.push(request.options.qs);
+    return [{ json: { success: true, data: pages[calls.length - 1] } }];
+  },
+});
+
+test('Return All follows next_cursor across pages and keeps the filter query', async () => {
+  const paginate = operationProperties.find(p => p.name === 'returnAll').routing.operations.pagination;
+  const calls = [];
+  const pages = [
+    { items: [{ id: 'a' }, { id: 'b' }], has_more: true, next_cursor: 'c1' },
+    { items: [{ id: 'c' }], has_more: false, next_cursor: null },
+  ];
+  const out = await paginate.call(listContext(pages, calls), { options: { method: 'GET', url: '/posts', qs: { status: 'draft' } } });
+  assert.deepEqual(out.map(i => i.json.id), ['a', 'b', 'c']);
+  assert.deepEqual(calls, [{ status: 'draft', limit: 100 }, { status: 'draft', limit: 100, cursor: 'c1' }]);
+});
+
+test('Return All stops with an error when the API repeats a cursor', async () => {
+  const paginate = operationProperties.find(p => p.name === 'returnAll').routing.operations.pagination;
+  const loop = { items: [{ id: 'a' }], has_more: true, next_cursor: 'same' };
+  await assert.rejects(paginate.call(listContext([loop, loop, loop], []), { options: { qs: {} } }), /same page cursor/);
+});
+
+test('optional post filters sit in one Filters collection and keep public API query names', () => {
+  const node = new Feedhive().description;
+  for (const name of ['status', 'labels', 'socials']) {
+    assert.equal(node.properties.some(p => p.name === name), false);
+  }
+  const filters = node.properties.find(p => p.name === 'filters');
+  assert.equal(filters.type, 'collection');
+  assert.deepEqual(filters.displayOptions.show, { resource: ['post'], operation: ['getMany'] });
+  assert.deepEqual(filters.options.map(o => o.routing.send.property).sort(), ['labels', 'socials', 'status']);
+  const status = filters.options.find(o => o.name === 'status');
+  assert.deepEqual(status.options.map(o => o.value), ['draft', 'scheduled', 'publishing', 'published', 'failed']);
 });
 
 

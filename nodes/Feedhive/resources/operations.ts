@@ -1,8 +1,13 @@
-import type { IDataObject, INodeExecutionData, INodeProperties } from 'n8n-workflow';
+import type {
+	DeclarativeRestApiSettings, IDataObject, IExecutePaginationFunctions, INodeExecutionData, INodeProperties,
+} from 'n8n-workflow';
 
 type Method = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 type Operation = { name: string; value: string; method: Method; path: string; description: string };
 type Resource = { name: string; value: string; operations: Operation[] };
+
+// The API serves at most 100 items per list page.
+const PAGE_SIZE = 100;
 
 // These are the public REST endpoints, not FeedHive's private app API.
 export const resources: Resource[] = [
@@ -51,6 +56,27 @@ export const resources: Resource[] = [
 ];
 
 const show = (resource: string, operations: string[]) => ({ resource: [resource], operation: operations });
+
+// List responses are { data: { items, has_more, next_cursor } }. Each page keeps
+// the filter query and adds the cursor from the previous page.
+async function fetchAllPages(
+	this: IExecutePaginationFunctions,
+	requestData: DeclarativeRestApiSettings.ResultOptions,
+): Promise<INodeExecutionData[]> {
+	const results: INodeExecutionData[] = [];
+	const seen = new Set<string>();
+	let cursor: string | undefined;
+	do {
+		const qs = { ...requestData.options.qs, limit: PAGE_SIZE, ...(cursor ? { cursor } : {}) };
+		const [envelope] = await this.makeRoutingRequest({ ...requestData, options: { ...requestData.options, qs } });
+		const page = (envelope?.json.data ?? {}) as { items?: IDataObject[]; has_more?: boolean; next_cursor?: string | null };
+		results.push(...(page.items ?? []).map((json) => ({ json })));
+		cursor = page.has_more ? page.next_cursor ?? undefined : undefined;
+		if (cursor && seen.has(cursor)) throw new Error('FeedHive returned the same page cursor twice');
+		if (cursor) seen.add(cursor);
+	} while (cursor);
+	return results;
+}
 
 const optionsFor = (resource: Resource) => resource.operations.map((operation) => ({
 			name: operation.name, value: operation.value, description: operation.description,
@@ -108,13 +134,21 @@ export const operationProperties: INodeProperties[] = resources.flatMap((resourc
 
 	const list = resource.operations.find((operation) => operation.value === 'getMany');
 	if (list) {
-		properties.push({ displayName: 'Limit', name: 'limit', type: 'number', default: 50,
-			typeOptions: { minValue: 1, maxValue: 100 }, displayOptions: { show: show(resource.value, ['getMany']) },
-			description: 'Max number of results to return', routing: { send: { type: 'query', property: 'limit' } } });
-		properties.push({ displayName: 'Cursor', name: 'cursor', type: 'string', default: '',
+		properties.push({ displayName: 'Return All', name: 'returnAll', type: 'boolean', default: false,
 			displayOptions: { show: show(resource.value, ['getMany']) },
-			description: 'Opaque next_cursor from the previous response; leave blank for the first page',
-			routing: { send: { type: 'query', property: 'cursor', value: '={{$value || undefined}}' } } });
+			description: 'Whether to return all results or only up to a given limit',
+			routing: { send: { paginate: '={{$value}}' }, operations: { pagination: fetchAllPages } } });
+		properties.push({ displayName: 'Limit', name: 'limit', type: 'number', default: 50,
+			typeOptions: { minValue: 1, maxValue: PAGE_SIZE },
+			displayOptions: { show: { ...show(resource.value, ['getMany']), returnAll: [false] } },
+			description: 'Max number of results to return',
+			routing: {
+				send: { type: 'query', property: 'limit' },
+				output: { postReceive: [
+					{ type: 'rootProperty', properties: { property: 'data.items' } },
+					{ type: 'limit', properties: { maxResults: '={{$value}}' } },
+				] },
+			} });
 	}
 
 	const writes = resource.operations.filter((operation) => (operation.method === 'POST' || operation.method === 'PATCH') && operation.value !== 'completeUpload');
@@ -136,9 +170,19 @@ export const operationProperties: INodeProperties[] = resources.flatMap((resourc
 	return properties;
 });
 
-export const postFilters: INodeProperties[] = ['status', 'labels', 'socials'].map((name) => ({
-	displayName: `${name[0].toUpperCase()}${name.slice(1)} Filter`,
-	name, type: 'string', default: '', displayOptions: { show: show('post', ['getMany']) },
-	description: `Optional comma-separated ${name === 'status' ? 'post statuses' : `${name} IDs`}`,
-	routing: { send: { type: 'query', property: name, value: '={{$value || undefined}}' } },
-}));
+export const postFilters: INodeProperties = {
+	displayName: 'Filters', name: 'filters', type: 'collection', placeholder: 'Add Filter', default: {},
+	displayOptions: { show: show('post', ['getMany']) },
+	options: [
+		{ displayName: 'Labels', name: 'labels', type: 'string', default: '',
+			description: 'Comma-separated label IDs',
+			routing: { send: { type: 'query', property: 'labels', value: '={{$value || undefined}}' } } },
+		{ displayName: 'Social Accounts', name: 'socials', type: 'string', default: '',
+			description: 'Comma-separated social account IDs',
+			routing: { send: { type: 'query', property: 'socials', value: '={{$value || undefined}}' } } },
+		{ displayName: 'Status', name: 'status', type: 'multiOptions', default: [],
+			options: ['draft', 'scheduled', 'publishing', 'published', 'failed'].map((value) => ({
+				name: `${value[0].toUpperCase()}${value.slice(1)}`, value })),
+			routing: { send: { type: 'query', property: 'status', value: '={{$value.join(",") || undefined}}' } } },
+	],
+};

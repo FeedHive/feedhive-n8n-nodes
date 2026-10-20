@@ -19,7 +19,7 @@ export class Feedhive implements INodeType {
 		properties: [
 			{ displayName: 'Resource', name: 'resource', type: 'options', noDataExpression: true,
 				options: resources.map(({ name, value }) => ({ name, value })), default: 'post' },
-			...operationProperties, ...postFilters,
+			...operationProperties, postFilters,
 		],
 	};
 }

@@ -32,7 +32,7 @@ Create a FeedHive API key under **Settings → Account** or **Settings → Works
 
 **Create Post** defaults to a draft. Scheduling a post or using **Assign Next** may publish it later. Deletions are irreversible.
 
-List operations return a page with `data.items`, `data.has_more`, and `data.next_cursor`. Enter `next_cursor` in **Cursor** to fetch the next page. Page limits range from 1 to 100. The node does not automatically paginate or retry writes. FeedHive limits API requests to 60 per minute; HTTP 429 errors surface in the workflow.
+List operations output one item per result. Turn on **Return All** to fetch every page, or set **Limit** (1 to 100) to get only the first results. **Post > Get Many** can be narrowed with **Filters** (status, labels, social accounts). The node does not retry writes. FeedHive limits API requests to 60 per minute; HTTP 429 errors surface in the workflow.
 
 **Start Upload** returns a signed URL. Use a separate n8n **HTTP Request** node to `PUT` the raw file bytes to the returned signed URL within 10 minutes, with the same `Content-Type` declared at upload start. Do not attach a FeedHive credential or send your API key to that URL. Then call **Complete Upload** with the upload session ID (no request body).
 
